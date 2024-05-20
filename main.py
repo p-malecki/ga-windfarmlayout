@@ -3,25 +3,29 @@ from plotting import *
 
 
 # set figsize and dpi for all figures
-plt.rcParams["figure.figsize"] = (5,5)
-plt.rcParams["figure.dpi"] = 90
+# plt.rcParams["figure.figsize"] = (5, 5)
+# plt.rcParams["figure.dpi"] = 90
 
-
-# Parameters:
-# population_size (int): Number of individuals in the population.
-# n_turbines (int): Number of turbines (N).
-# area_size (int): Size of the land area in meters (assuming a square area) (L).
-# min_spacing (float): Minimum spacing between turbines (D).
-#   No turbine can be less than two rotor diameters from any other turbine [m].
-# max_attempts (int): Maximum number of attempts to find a valid position for a new turbine.
 
 ga_config = {
-    'n_turbines': 16,
+    'n_turbines': 10,
     'area_size': 1300,
     'min_spacing': 100,
     'max_attempts': 100,
     'wind_speed': 9.8,
-    'population_size': 3,
+    'population_size': 1000,
+    'mutation_rate': 0.1,
+    'max_generations': 100,
+    'max_stagnation': 50,
+}
+
+ga_config_fast = {
+    'n_turbines': 5,
+    'area_size': 1000,
+    'min_spacing': 100,
+    'max_attempts': 100,
+    'wind_speed': 9.8,
+    'population_size': 100,
     'mutation_rate': 0.1,
     'max_generations': 50,
     'max_stagnation': 50,
@@ -29,4 +33,28 @@ ga_config = {
 
 
 if __name__ == '__main__':
-    genetic_algorithm(ga_config)
+    solutions_best_fitness_values = []
+    solutions_best_layouts = []
+    solutions_fitness_values = []
+    solutions_layouts = []
+    for i in range(2):
+        print(f"ITERATION {i+1}")
+        (best_fitness, best_layout), (fitness_values, layouts) = genetic_algorithm(ga_config)
+        # (best_fitness, best_layout), (fitness_values, layouts) = genetic_algorithm(ga_config_fast)
+        solutions_best_fitness_values.append([i+1, best_fitness])
+        solutions_best_layouts.append(best_layout)
+        solutions_fitness_values.append(fitness_values)
+        solutions_layouts.append(layouts)
+    print('\nsolutions_best_fitness_values: ', solutions_best_fitness_values)
+
+    plot_population_layouts(solutions_best_layouts, title=f'Best turbine layouts')
+
+    for i, fitness_values in enumerate(solutions_fitness_values):
+        plt.plot(fitness_values, label=f'solution {i+1}')
+    plt.title(f'Fitness scores across generations {solutions_best_fitness_values}')
+    plt.legend(loc='lower right')
+    plt.show()
+
+    for i, layouts in enumerate(solutions_layouts):
+        plot_population_layouts(layouts[::10], title=f'Turbine layouts {i+1}', alpha_ascending=True)
+

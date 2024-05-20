@@ -14,17 +14,23 @@ def plot_turbine_layout(coordinates):
     plt.show()
 
 
-def plot_population_layouts(population):
+def plot_population_layouts(population, title='', alpha_ascending=False):
     """Plot the turbine layouts of the entire population."""
     plt.figure()
+    alpha = 1.0 if not alpha_ascending else 0.0
     for i, layout in enumerate(population):
         x_coordinates = [coord[0] for coord in layout]
         y_coordinates = [coord[1] for coord in layout]
-        plt.scatter(x_coordinates, y_coordinates, marker='x', label=f'Layout {i+1}')
+        if alpha_ascending:
+            alpha += 1 / len(population)
+            alpha = min(alpha, 1)
+            plt.scatter(x_coordinates, y_coordinates, marker='x', alpha=min(alpha + 0.5, 1), color=[(alpha, 0, (1-alpha))], label=f'Layout {i+1}')
+        else:
+            plt.scatter(x_coordinates, y_coordinates, marker='x', label=f'Layout {i+1}')
 
     plt.xlabel('X Coordinate')
     plt.ylabel('Y Coordinate')
-    plt.title('Turbine Layouts of Population')
+    plt.title('Turbine Layouts of Population' if not title else title)
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.grid(True)
     plt.show()
