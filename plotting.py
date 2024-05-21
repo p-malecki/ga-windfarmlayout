@@ -1,8 +1,7 @@
 import matplotlib.pyplot as plt
 
 
-def plot_turbine_layout(coordinates):
-    """Plot the turbine layout based on the given coordinates."""
+def plot_turbine_layout(coordinates, title=''):
     x_coordinates = [coord[0] for coord in coordinates]
     y_coordinates = [coord[1] for coord in coordinates]
     plt.figure()
@@ -10,19 +9,19 @@ def plot_turbine_layout(coordinates):
     plt.xlabel('X Coordinate')
     plt.ylabel('Y Coordinate')
     plt.title('Turbine Layout')
+    plt.title('Turbine Layout' if not title else title)
     plt.grid(True)
     plt.show()
 
 
-def plot_population_layouts(population, title='', alpha_ascending=False):
-    """Plot the turbine layouts of the entire population."""
+def plot_multiple_layouts(layouts, title='', alpha_ascending=False):
     plt.figure()
     alpha = 1.0 if not alpha_ascending else 0.0
-    for i, layout in enumerate(population):
+    for i, layout in enumerate(layouts):
         x_coordinates = [coord[0] for coord in layout]
         y_coordinates = [coord[1] for coord in layout]
         if alpha_ascending:
-            alpha += 1 / len(population)
+            alpha += 1 / len(layouts)
             alpha = min(alpha, 1)
             plt.scatter(x_coordinates, y_coordinates, marker='x', alpha=min(alpha + 0.5, 1), color=[(alpha, 0, (1-alpha))], label=f'Layout {i+1}')
         else:
@@ -30,7 +29,7 @@ def plot_population_layouts(population, title='', alpha_ascending=False):
 
     plt.xlabel('X Coordinate')
     plt.ylabel('Y Coordinate')
-    plt.title('Turbine Layouts of Population' if not title else title)
+    plt.title('Layouts of Turbines' if not title else title)
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.grid(True)
     plt.show()
@@ -44,4 +43,16 @@ def plot_roulette_wheel(probabilities):
     labels = ['Layout {}'.format(i + 1) for i in range(len(probabilities))]
     ax.legend(wedges, labels, loc='center left', bbox_to_anchor=(1, 0, 0.5, 1))
     ax.set_title('Roulette Wheel Selection Probabilities')
+    plt.show()
+
+
+def plot_solutions_data_stats(multiple_solution_data, title="", axhline=None):
+    plt.figure()
+    for i, values in enumerate(multiple_solution_data):
+        plt.plot(values, label=f'solution {i+1}')
+    plt.title(title)
+    if axhline:
+        x_range = range(len(multiple_solution_data))
+        plt.plot(x_range, [axhline] * len(x_range), color='r', linestyle='--', label=f'value = {axhline}')
+    plt.legend(loc='lower right')
     plt.show()

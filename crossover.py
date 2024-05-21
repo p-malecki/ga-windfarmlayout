@@ -94,5 +94,8 @@ def onepoint_coordinate_crossover(parents):
 
 
 def crossover(parents):
-    return onepoint_position_crossover(parents)
-    #return onepoint_coordinate_crossover(parents)
+    return onepoint_layouts_pair_crossover(parents)
+    # return onepoint_layouts_crossover(parents)
+    # return twopoint_layouts_crossover(parents)
+    # return onepoint_position_crossover(parents)
+    # return onepoint_coordinate_crossover(parents)
