@@ -52,7 +52,17 @@ def plot_solutions_data_stats(multiple_solution_data, title="", axhline=None):
         plt.plot(values, label=f'solution {i+1}')
     plt.title(title)
     if axhline:
-        x_range = range(len(multiple_solution_data))
+        x_range = range(len(multiple_solution_data[0]))
         plt.plot(x_range, [axhline] * len(x_range), color='r', linestyle='--', label=f'value = {axhline}')
     plt.legend(loc='lower right')
+    plt.show()
+
+
+def plot_fitness_over_generations(fitness_values, title):
+    plt.figure(figsize=(10, 5))
+    plt.plot(fitness_values, 'g-', linewidth=2)
+    plt.title(title)
+    plt.xlabel("Generation")
+    plt.ylabel("Fitness")
+    plt.grid(True)
     plt.show()

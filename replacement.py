@@ -3,7 +3,8 @@ import random
 
 
 # def elitism_replacement(population, offspring, fitness_values, num_elites):
-#     """A certain number of the best individuals from the current generation are carried over to the next generation."""
+#     """A certain number of the best individuals from the current
+#     generation are carried over to the next generation."""
 #     combined_population = population + offspring
 #     combined_fitness = fitness_values + [evaluate_fitness(ind) for ind in offspring]
 #     elite_indices = sorted(range(len(combined_fitness)), key=lambda i: combined_fitness[i], reverse=True)[:num_elites]
@@ -41,7 +42,8 @@ def tournament_replacement(population, offspring, tournament_size, fitness_param
 
 
 # def rank_based_replacement(population, offspring):
-#     """Individuals are ranked based on their fitness, and replacement is done probabilistically based on these ranks."""
+#     """Individuals are ranked based on their fitness,
+#     and replacement is done probabilistically based on these ranks."""
 #     combined_population = population + offspring
 #     combined_fitness = [evaluate_fitness(ind) for ind in combined_population]
 #     ranks = sorted(range(len(combined_fitness)), key=lambda i: combined_fitness[i])

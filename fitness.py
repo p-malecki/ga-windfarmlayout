@@ -95,14 +95,20 @@ def fitness_multi_objective(layout, weights, area_size, min_spacing, wind_speed,
     boundary_fitness = fitness_boundary_constraint(layout, area_size)
     spacing_fitness = fitness_uniform_spacing(layout, min_spacing)
     wake_fitness = fitness_wake_effect(layout, wind_direction)
-
-    #print(f'fitness_multi_objective: {round(energy_production)}\t{boundary_fitness}\t{round(spacing_fitness)}\t\t{round(wake_fitness)}')
+    is_valid = -1 if not is_layout_valid(layout, area_size, min_spacing) else 0
+    # print(f'fitness_multi_objective: {round(energy_production)}\t{boundary_fitness}\t{round(spacing_fitness)}\t\t{round(wake_fitness)}')
 
     total_fitness = (weights['energy_production'] * energy_production +
                      weights['boundary_fitness'] * spacing_fitness +
                      weights['spacing_fitness'] * boundary_fitness +
-                     weights['wake_fitness'] * wake_fitness)
+                     weights['wake_fitness'] * wake_fitness +
+                     weights['is_valid'] * is_valid
+                     )
     return total_fitness
+
+
+def fitness_max_energy_production(layout, weights, wind_speed):
+    return weights['energy_production'] * calculate_layout_energy_production(layout, wind_speed)
 
 
 def evaluate_fitness(population, weights, area_size, min_spacing, wind_speed, wind_direction):

@@ -77,7 +77,6 @@ def generate_random_incorrect_layout(n_turbines, area_size, min_spacing, max_att
     return layout
 
 
-
 def is_valid_spacing(pos1, pos2, min_spacing):
     """Check if turbines at the positions satisfy the minimum spacing constraint."""
     return euclidean_distance(pos1, pos2) >= min_spacing
@@ -99,3 +98,16 @@ def is_layout_valid(layout, area_size, min_spacing):
             if not is_valid_spacing(pos1, pos2, min_spacing):
                 return False
     return True
+
+
+def initialize_population(population_size, n_turbines, area_size, min_spacing, max_attempts=100):
+    """Generate random turbine layouts with each turbine within the land area and satisfying spacing constraints."""
+
+    initial_population = []
+    num_bits = determine_num_bits(area_size)
+    for _ in range(population_size):
+        layout = generate_random_incorrect_layout(n_turbines, area_size, min_spacing, max_attempts)
+        encoded_layout = [encode_position_to_binary(pos[0], pos[1], num_bits) for pos in layout]
+        initial_population.append(encoded_layout)
+
+    return initial_population
