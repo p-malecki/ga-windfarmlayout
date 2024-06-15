@@ -1,5 +1,6 @@
 from genetic_algorithm import *
 from plotting import *
+from fitness import fitness_max_energy_production
 
 
 # PROBLEM CONSTANTS
@@ -44,21 +45,20 @@ if __name__ == '__main__':
     solutions_max_fitness_values = []
     solutions_avg_fitness_values = []
     solutions_layouts = []
-    global_best_solution = 0
     for i in range(10):
         print(f"ITERATION {i+1}")
-        gbs, (best_fitness, best_layout), (fitness_max_values, layouts), fitness_avg_values = genetic_algorithm(ga_config)
+        (best_fitness, best_layout), (fitness_max_values, layouts), fitness_avg_values = genetic_algorithm(ga_config)
         solutions_best_fitness_values.append([i+1, best_fitness])
         solutions_best_layouts.append(best_layout)
         solutions_max_fitness_values.append(fitness_max_values)
         solutions_avg_fitness_values.append(fitness_avg_values)
         solutions_layouts.append(layouts)
-        global_best_solution = gbs
 
     plot_multiple_layouts(solutions_best_layouts, title=f'Best turbine layouts')
-    for i, layouts in enumerate(solutions_layouts):
-        plot_multiple_layouts(layouts[::10], title=f'Turbine layouts {i + 1}', alpha_ascending=True)
+    # for i, layouts in enumerate(solutions_layouts):
+    #     plot_multiple_layouts(layouts[::10], title=f'Turbine layouts {i + 1}', alpha_ascending=True)
 
+    global_best_solution = fitness_max_energy_production(solutions_best_layouts[0], fitness_weights, wind_speed)
     plot_solutions_data_stats(solutions_max_fitness_values,
                               title='Fitness max scores across generations {solutions_best_fitness_values}',
                               axhline=global_best_solution)

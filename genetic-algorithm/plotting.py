@@ -14,7 +14,7 @@ def plot_turbine_layout(coordinates, title=''):
     plt.show()
 
 
-def plot_multiple_layouts(layouts, title='', alpha_ascending=False):
+def plot_multiple_layouts(layouts, title='', alpha_ascending=False, lim=None):
     plt.figure()
     alpha = 1.0 if not alpha_ascending else 0.0
     for i, layout in enumerate(layouts):
@@ -29,6 +29,9 @@ def plot_multiple_layouts(layouts, title='', alpha_ascending=False):
 
     plt.xlabel('X Coordinate')
     plt.ylabel('Y Coordinate')
+    if lim:
+        plt.xlim(*lim[0])
+        plt.ylim(*lim[1])
     plt.title('Layouts of Turbines' if not title else title)
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.grid(True)

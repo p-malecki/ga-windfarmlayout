@@ -67,8 +67,11 @@ def generate_random_correct_layout(n_turbines, area_size, min_spacing, max_attem
     return layout
 
 
-def generate_random_incorrect_layout(n_turbines, area_size, min_spacing, max_attempts=100):
-    max_coordinate = area_size  # - min_spacing
+def generate_random_layout(n_turbines, area_size, min_spacing, max_attempts=100):
+
+    # TODO implement latin hypercube sampling
+    
+    max_coordinate = area_size
     layout = []
     for _ in range(n_turbines):
         x = random.randint(0, max_coordinate)
@@ -106,7 +109,7 @@ def initialize_population(population_size, n_turbines, area_size, min_spacing, m
     initial_population = []
     num_bits = determine_num_bits(area_size)
     for _ in range(population_size):
-        layout = generate_random_incorrect_layout(n_turbines, area_size, min_spacing, max_attempts)
+        layout = generate_random_layout(n_turbines, area_size, min_spacing, max_attempts)
         encoded_layout = [encode_position_to_binary(pos[0], pos[1], num_bits) for pos in layout]
         initial_population.append(encoded_layout)
 
